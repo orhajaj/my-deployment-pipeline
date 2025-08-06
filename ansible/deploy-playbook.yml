@@ -1,0 +1,26 @@
+---
+- hosts: myserver
+  become: yes
+  vars:
+    env: "{{ env }}"
+    app_version: "{{ app_version }}"
+  tasks:
+    - name: Pull Docker image
+      docker_image:
+        name: my-docker-app
+        tag: "{{ app_version }}"
+        source: pull
+
+    - name: Stop and remove existing container
+      docker_container:
+        name: my-docker-app
+        state: absent
+
+    - name: Run Docker container
+      docker_container:
+        name: my-docker-app
+        image: my-docker-app:{{ app_version }}
+        state: started
+        restart_policy: always
+        published_ports:
+          - "80:80"
