@@ -6,8 +6,8 @@
     app_version: "{{ app_version }}"
   tasks:
     - name: Pull Docker image
-      docker_image:
-        name: my-docker-app
+      community.docker.docker_image:
+        name: "orhajaj/my-docker-app"
         tag: "{{ app_version }}"
         source: pull
 
